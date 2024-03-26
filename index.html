@@ -1,0 +1,172 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Reminder</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>Medicine Reminder</h1>
+    <div id="card">
+        <!--Add Medication-->
+       <details>
+        <summary>Add Medication:</summary>
+        <br>
+        <div id="addmed">
+        <form>
+           <label for="medname">Medication name:</label><br>
+
+           <input type="text" id="medname" required>
+           <br>
+           <label for="meddosage">Dosage:</label><br>
+           <input type="text"  id="meddosage" required>
+           <br>
+           <label for="medfrequency">Frequency:</label><br>
+           <input type="text"  id="medfrequency" required>
+           <br>
+           <label for="meddate">Start-Date:</label><br>
+           <input type="date"  id="meddate" required>
+           <br><br>
+        <input type="submit" id="submit" value="Add Medication">
+        </form>
+        </div>
+       </details>
+   
+    <!--Mediaction list-->
+    <div id="medlise"><h3>Medication List:</h3>
+    <ul id="medlist"></ul>
+    </div>
+    <!--set reminder-->
+    <div id="setrem">
+        <h3>Set Reminders:</h3>
+        <ul id="reminder"></ul>
+        </div>
+    <!--View Schedule-->
+    <div id="view">
+        <h3>View Schedule:</h3>
+        <table id="schedule">
+            <tr>
+                <th>Medication</th>
+                <th>Dosage</th>
+                <th>Frequency</th>
+                <th>Start Date</th>
+                <th>Action</th> <!-- Column for Delete Button -->
+            </tr>
+        </table>
+    </div>
+    
+    
+   <!--Record doses taken-->
+   <div id="record">
+    <h3>Record Doses Taken:</h3>
+    <form id="dose">
+        <button>Recorded Dose Taken</button>
+    </form>
+    <div id="dosehistory"></div>
+   </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let a = document.getElementById("addmed");
+    let b = document.getElementById("medlist");
+    let c = document.getElementById("reminder");
+    let d = document.getElementById("schedule");
+    let e = document.getElementById("dose");
+    let f = document.getElementById("dosehistory");
+
+    let medications = [];
+
+    a.addEventListener("submit", function(e){
+        e.preventDefault();
+
+        let name = document.getElementById("medname").value;
+        let dosage = document.getElementById("meddosage").value;
+        let frequency = document.getElementById("medfrequency").value;
+        let startdate = document.getElementById("meddate").value;
+        
+        // Add medication to the list
+        medications.push({name, dosage, frequency, startdate});
+        updateList();
+        setReminder(); // Call setReminder after adding a medication
+        viewSchedule(); // Call viewSchedule after adding a medication
+        
+
+
+
+     document.getElementById("medname").value = "";
+    document.getElementById("meddosage").value = "";
+    document.getElementById("medfrequency").value = "";
+    document.getElementById("meddate").value = "";
+
+    });
+
+    function updateList() {
+        b.innerHTML = "";
+        medications.forEach(function(med){
+            let li = document.createElement("li");
+            li.textContent = `${med.name} - Dosage: ${med.dosage}, Frequency: ${med.frequency}, Start Date: ${med.startdate}`;
+            b.appendChild(li);
+        });
+    }
+
+    function setReminder() {
+        console.log("Setting reminders...");
+        c.innerHTML = ""; // Clear previous reminders
+        medications.forEach(function(med){
+            let reminderItem = document.createElement("li");
+            reminderItem.textContent = `Set reminder for ${med.name} - Dosage: ${med.dosage}, Frequency: ${med.frequency},Start Date: ${med.startdate}`;
+            c.appendChild(reminderItem);
+        });
+    }
+
+   
+    function viewSchedule() {
+    console.log("Viewing schedule...");
+    const scheduleTable = document.getElementById("schedule");
+    scheduleTable.innerHTML = ""; // Clear previous schedule
+
+    medications.forEach(function(med){
+        let scheduleRow = scheduleTable.insertRow();
+        scheduleRow.innerHTML = `
+            <td>${med.name}</td>
+            <td>${med.dosage}</td>
+            <td>${med.frequency}</td>
+            <td>${med.startdate}</td>
+            <td><button class="delete-btn" data-startdate="${med.startdate}">Delete</button></td>
+        `;
+    });
+
+    // Add event listeners to delete buttons
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const startDate = button.getAttribute('data-startdate');
+            deleteSchedule(startDate);
+        });
+    });
+}
+
+function deleteSchedule(startDate) {
+    medications = medications.filter(med => med.startdate !== startDate);
+    viewSchedule(); // Refresh schedule display after deletion
+}
+
+
+    e.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const currentTime = new Date();
+        const doseTaken = currentTime.toLocaleString();
+
+        // Add dose taken to history
+        const doseEntry = document.createElement('div');
+        doseEntry.textContent = `Dose taken: ${doseTaken}`;
+        f.appendChild(doseEntry);
+
+       
+    });
+});
+
+
+</script>
+</body>
+</html>

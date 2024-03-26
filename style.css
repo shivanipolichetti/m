@@ -1,0 +1,46 @@
+body{
+    border:4px groove darkorange;
+    background-color: cornsilk;
+    
+
+}
+
+h1{
+    text-align: center;
+    color:darkturquoise;
+    text-shadow: 5px 5px 5px lightslategray;
+   
+}
+summary{
+    text-align: center;
+    font-weight: bold;
+}
+#card{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
+
+#addmed,
+#setrem,
+#view,#record {
+  margin: 20px;
+  padding: 20px;
+  background-color:lightgray;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px whitesmoke;
+  transition: transform 0.3s ease;
+}
+
+#addmed:hover,
+#setrem:hover,
+#view:hover,#record:hover {
+  transform: translateY(-5px);
+}
+form{
+    text-align:center;
+}
+#schedule,tr,th{
+    border:2px solid black;
+}
