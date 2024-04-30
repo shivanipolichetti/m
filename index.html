@@ -13,7 +13,7 @@
         <summary>Add Medication:</summary>
         <br>
         <div id="addmed">
-        <form>
+        <form autocomplete="off">
            <label for="medname">Medication name:</label><br>
 
            <input type="text" id="medname" required>
@@ -77,26 +77,25 @@
     let medications = [];
 
     a.addEventListener("submit", function(e){
-        e.preventDefault();
+    e.preventDefault();
 
-        let name = document.getElementById("medname").value;
-        let dosage = document.getElementById("meddosage").value;
-        let frequency = document.getElementById("medfrequency").value;
-        let startdate = document.getElementById("meddate").value;
-        
-        // Add medication to the list
-        medications.push({name, dosage, frequency, startdate});
-        updateList();
-        setReminder(); // Call setReminder after adding a medication
-        viewSchedule(); // Call viewSchedule after adding a medication
-        
+    let name = document.getElementById("medname").value;
+    let dosage = document.getElementById("meddosage").value;
+    let frequency = document.getElementById("medfrequency").value;
+    let startdate = document.getElementById("meddate").value;
+    
+    // Add medication to the list
+    medications.push({name, dosage, frequency, startdate});
+    updateList();
+    setReminder(); // Call setReminder after adding a medication
+    viewSchedule(); // Call viewSchedule after adding a medication
 
-
-
-     document.getElementById("medname").value = "";
+    // Clear the form fields
+    document.getElementById("medname").value = "";
     document.getElementById("meddosage").value = "";
     document.getElementById("medfrequency").value = "";
     document.getElementById("meddate").value = "";
+
 
     });
 
